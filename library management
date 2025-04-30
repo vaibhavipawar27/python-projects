@@ -1,0 +1,68 @@
+class Library:
+    def __init__(self,):
+        self.books=[]
+        self.no_of_books=0
+        self.filename = "library.txt"
+
+    def add_book(self,book_name):
+        self.books.append(book_name)
+        self.no_of_books+=1
+        self.save_books_to_file()
+        print(f"Book {book_name} has been added to the Library.")
+    
+    def show_no_of_book(self):
+        return self.no_of_books
+    
+    def save_books_to_file(self):
+        with open(self.filename, 'a') as file: 
+            file.write(f"{self.books[-1]}\n")
+
+    def load_books_from_file(self):
+        try:
+            with open(self.filename, 'r') as file:
+                self.books = [line.strip() for line in file]
+                self.no_of_books = len(self.books)
+            print(f"Books loaded from file: {self.filename}")
+        except FileNotFoundError:
+            print(f"File {self.filename} does not exist. Starting with an empty library.")
+    
+    def display_books(self):
+        if self.books:
+            print("Books in the library")
+            for i,books in enumerate(self.books, 1):
+                print(f"{i}.{books}")
+        else:
+            print("No books in the library")
+
+def main():
+    library=Library()
+    print('Welcome to the library')
+
+    library.load_books_from_file()
+    
+    while True:
+        print("\nChoose an option:")
+        print("1. Add a book")
+        print("2. Display all books")
+        print("3. Get the number of books")
+        print("4. Exit")
+
+        choice = int(input("Enter your choice (1-4): "))
+
+        if choice==1:
+            book_name=input("Enter the name of book : ")
+            library.add_book(book_name)
+        elif choice== 2:
+            library.display_books()
+        
+        elif choice==3:
+            print(f"Library has {library.show_no_of_book()} books")
+        elif choice==4:
+            print("Exiting the Library!!")
+            break
+        else:
+            print("Invalid Choice!!")
+            break
+
+if __name__=="__main__":
+    main()
